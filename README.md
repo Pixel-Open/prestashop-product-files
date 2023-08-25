@@ -22,7 +22,7 @@ An easy way to attach files and documents to the product (multi-languages, multi
 
 ## Installation
 
-Download the **pixel_product_files.zip** file from the [last release](https://github.com/Pixel-Open/pixel_product_files/releases/latest) assets.
+Download the **pixel_product_files.zip** file from the [last release](https://github.com/Pixel-Open/prestashop-product-files/releases/latest) assets.
 
 ### Admin
 
