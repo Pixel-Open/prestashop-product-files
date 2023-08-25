@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file original="admin769bvyrhr" source-language="fr-FR" target-language="fr-FR" datatype="plaintext">
+    <body>
+        <trans-unit id="IGpLoiryXDhVUp8JbHMTY8X8CTX54vEg">
+            <source>File</source>
+            <target>Fichier</target>
+            <note>Line: </note>
+        </trans-unit>
+        <trans-unit id="611DLFa9S5S7tkLZTedaF1WCwSeIbbjS">
+            <source>File extension is not allowed</source>
+            <target>L'extension du fichier n'est pas autorisé</target>
+            <note>Line: </note>
+        </trans-unit>
+        <trans-unit id="eHYE8cCuvym0uVczXULcGb1V5mmfvv4Q">
+          <source>The file has been added</source>
+          <target>Le fichier a été ajouté</target>
+          <note>Line: </note>
+        </trans-unit>
+        <trans-unit id="t0KMpjZFmz6JhiU2bgCXUHQ09hIuJZ5J">
+          <source>File does not exist</source>
+          <target>Le fichier n'existe pas</target>
+          <note>Line: </note>
+        </trans-unit>
+        <trans-unit id="RKtEeQNMAU0Jscj0327RX3GMlahUceRr">
+          <source>The file has been deleted</source>
+          <target>Le fichier a été supprimé</target>
+          <note>Line: </note>
+        </trans-unit>
+        <trans-unit id="96FtaWRDl7VCCxviaTvzf6833rE6I2ZD">
+          <source>Add a file</source>
+          <target>Ajouter un fichier</target>
+          <note>Line: </note>
+        </trans-unit>
+        <trans-unit id="JqVdCP8DHRSoDY7VDHhym2BPeWP05G9r">
+          <source>Title</source>
+          <target>Titre</target>
+          <note>Line: </note>
+        </trans-unit>
+        <trans-unit id="MW2o94dftS8jk3YgJeBDVOfNPuKIsofc">
+          <source>Description</source>
+          <target>Description</target>
+          <note>Line: </note>
+        </trans-unit>
+        <trans-unit id="ukflwxvWV7slOgaOUtasNfRafkIuO2oP">
+          <source>Position</source>
+          <target>Position</target>
+          <note>Line: </note>
+        </trans-unit>
+        <trans-unit id="a56iKuzAyib8y3gKAAfFDGSM8KsxRDz2">
+          <source>Delete</source>
+          <target>Supprimer</target>
+          <note>Line: </note>
+        </trans-unit>
+        <trans-unit id="RVCMHgWgtpaktUZDKlzHks9tkZGHeOrg">
+          <source>Warning:</source>
+          <target>Attention :</target>
+          <note>Line: </note>
+        </trans-unit>
+        <trans-unit id="xOHdkNQzZgQzfeHprSdUZB5yhjiWlcGs">
+          <source>Close</source>
+          <target>Fermer</target>
+          <note>Line: </note>
+        </trans-unit>
+        <trans-unit id="DODKbfJNkyB3JffqLW0alpnGr2Sw0BkA">
+          <source>Submit</source>
+          <target>Envoyer</target>
+          <note>Line: </note>
+        </trans-unit>
+        <trans-unit id="scX5Lg25BOt5Jd4NqzKUq3mGZQj3rQro">
+          <source>all unsaved product updates will be lost</source>
+          <target>toutes les modifications non enregistrées du produit seront perdues</target>
+          <note>Line: </note>
+        </trans-unit>
+        <trans-unit id="uph8UmzubAsFm8LQLZQrapbTN0EbEfYj">
+          <source>Are you sure you want to delete this file?</source>
+          <target>Voulez-vous vraiment supprimer ce fichier ?</target>
+          <note>Line: </note>
+        </trans-unit>
+        <trans-unit id="Zpo1Obb9TT4ytEBoZtbtIdrxXS0d8g9X">
+          <source>Product Files</source>
+          <target>Fichiers du produit</target>
+          <note>Line: </note>
+        </trans-unit>
+        <trans-unit id="sUiTdi2fLaqospaMYvQJyFgGpLyjR5Qk">
+          <source>An easy way to attach files and documents to the product (multi-languages, multi-shops).</source>
+          <target>Un moyen simple de joindre des fichiers et des documents au produit (multi-langues, multi-boutiques).</target>
+          <note>Line: </note>
+        </trans-unit>
+        <trans-unit id="ZPpic5nEl10iprxCnKfYqshMmrRF5H3z">
+            <source>Available in all languages (global)</source>
+            <target>Disponible dans toutes les langues (global)</target>
+            <note>Line: </note>
+        </trans-unit>
+        <trans-unit id="aaZTCnbCTWWXAFdGBQ1eGykrFlQj0JLF">
+            <source>Available in all shops (global)</source>
+            <target>Disponible dans toutes les boutiques (global)</target>
+            <note>Line: </note>
+        </trans-unit>
+        <trans-unit id="KisMwRqlxpPf3hum7qdaRPcwSnQvD7AK">
+            <source>Global</source>
+            <target>Global</target>
+            <note>Line: </note>
+        </trans-unit>
+        <trans-unit id="BkcMInfz78MZrCVJ0oWn6J54WvIzfTQX">
+            <source>Unknown</source>
+            <target>Inconnu</target>
+            <note>Line: </note>
+        </trans-unit>
+    </body>
+  </file>
+</xliff>

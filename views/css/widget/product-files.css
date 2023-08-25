@@ -1,0 +1,25 @@
+.pxl-product-files .product-file {
+    margin: 20px 0;
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background: #fff;
+}
+
+.pxl-product-files .product-file img {
+    vertical-align: middle;
+    width: 30px;
+    margin-right: 10px;
+}
+
+.pxl-product-files .product-file-title {
+    vertical-align: middle;
+}
+
+.pxl-product-files .product-file-description {
+    margin-top: 10px;
+    display: block;
+}

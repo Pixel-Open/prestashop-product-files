@@ -1,0 +1,73 @@
+.product-files-list {
+    margin: 20px -10px 0 -10px;
+}
+
+.product-files-list .product-files-container {
+    float: left;
+    margin-bottom: 10px;
+}
+
+.product-files-list .product-files-content {
+    margin: 10px;
+}
+
+.product-files-list .product-files-file {
+    width: 100%;
+    padding-top: 100%;
+    position: relative;
+}
+
+.product-files-list .product-files-fields label {
+    margin-bottom: .1rem;
+}
+
+.product-files-list .product-files-preview {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background-color: #f5f5f5;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center;
+    display: block;
+    text-decoration: none;
+    text-align: center;
+    font-size: 34px;
+    color: #000;
+}
+
+.product-files-list .product-files-preview span {
+    padding-top: 43%;
+    display: block;
+    height: 100%;
+    text-transform: uppercase;
+}
+
+.product-files-list .product-files-actions {
+    margin-top: .625rem;
+}
+
+.product-files-list .product-files-actions a {
+    color: #25b9d7;
+}
+
+.product-files-list .product-files-scope span {
+    color: #666;
+    border: 1px solid #ccc;
+    padding: 3px 5px;
+    margin: 10px 5px 5px 0;
+    background: #f6f6f6;
+    display: inline-block;
+    font-size: 13px;
+    text-transform: uppercase;
+}
+
+.product-files-list .product-files-scope .scope-shop {
+    background: #f4fdff
+}
+
+.product-files-list .product-files-scope .scope-lang {
+    background: #fffaf1;
+}

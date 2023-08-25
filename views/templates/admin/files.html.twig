@@ -1,0 +1,107 @@
+<div class="form-group">
+    {% for id, lang in languages %}
+        <div class="row">
+            <div class="col-md-12">
+                <div class="translations tabbable">
+                    <div class="col-md-12 translationsFields tab-content">
+                        <div data-locale="{{ lang }}" class="translationsFields-form_additional_title_add_file_{{ lang }} tab-pane translation-field show active translation-label-{{ lang }}">
+                            <button type="button" class="btn btn-primary product_files_add_file_button" data-shop-id="{{ id_shop }}" data-lang-id="{{ id }}" data-product-id="{{ id_product }}">
+                                {{ 'Add a file'|trans({}, 'Modules.Pixelproductfiles.Admin') }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    <div class="product-files-list">
+        {% for file in files %}
+            {% set extension = file.file|split('.')|last %}
+            {% if file.idLang and languages[file.idLang] is defined %}
+                <div class="product-files-container translations tabbable">
+                    <div class="translationsFields tab-content">
+                        <div data-locale="{{ languages[file.idLang] }}" class="translationsFields-form_product_file_{{ file.id }}_{{ file.idLang }} tab-pane translation-field show active translation-label-{{ languages[file.idLang] }}">
+                            <div class="product-files-content">
+                                <fieldset class="form-group">
+                                    <div class="product-files-file">
+                                        <a href="{{ file_base_url }}{{ file.file|url_encode }}" class="product-files-preview" {% if extension in img_ext %}style="background-image: url({{ file_base_url }}{{ file.file|url_encode }})"{% endif %} target="_blank">
+                                            {% if extension not in img_ext %}
+                                                <span>{{ extension }}</span>
+                                            {% endif %}
+                                        </a>
+                                    </div>
+                                    {% include '@Modules/pixel_product_files/views/templates/admin/files/scope.html.twig' %}
+                                    <div class="product-files-fields">
+                                        <div class="mt-2">
+                                            <input type="text" class="form-control" value="{{ file.file }}" readonly />
+                                        </div>
+                                        <div class="mt-2">
+                                            <label for="form_additional_title_{{ file.id }}_{{ file.idLang }}">{{ 'Title'|trans({}, 'Modules.Pixelproductfiles.Admin') }}</label>
+                                            <input type="text" class="form-control" id="form_additional_title_{{ file.id }}_{{ file.idLang }}" name="file[{{ file.id }}][title]" value="{{ file.title }}" />
+                                        </div>
+                                        <div class="mt-2">
+                                            <label for="form_additional_description_{{ file.id }}_{{ file.idLang }}">{{ 'Description'|trans({}, 'Modules.Pixelproductfiles.Admin') }}</label>
+                                            <input type="text" class="form-control" id="form_additional_description_{{ file.id }}_{{ file.idLang }}" name="file[{{ file.id }}][description]" value="{{ file.description }}" />
+                                        </div>
+                                        <div class="mt-2">
+                                            <label for="form_additional_position_{{ file.id }}_{{ file.idLang }}">{{ 'Position'|trans({}, 'Modules.Pixelproductfiles.Admin') }}</label>
+                                            <input type="text" class="form-control" id="form_additional_position_{{ file.id }}_{{ file.idLang }}" name="file[{{ file.id }}][position]" value="{{ file.position }}" />
+                                        </div>
+                                    </div>
+                                    <div class="product-files-actions">
+                                        <a href="{{ delete_url }}&id_file={{ file.id }}" onclick="return confirm('{{ 'Are you sure you want to delete this file?'|trans({}, 'Modules.Pixelproductfiles.Admin')|e }}');">{{ 'Delete'|trans({}, 'Modules.Pixelproductfiles.Admin') }}</a>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="product-files-container">
+                    <div class="product-files-content">
+                        <fieldset class="form-group">
+                            <div class="product-files-file">
+                                <a href="{{ file_base_url }}{{ file.file|url_encode }}" class="product-files-preview" {% if extension in img_ext %}style="background-image: url({{ file_base_url }}{{ file.file|url_encode }})"{% endif %} target="_blank">
+                                    {% if extension not in img_ext %}
+                                        <span>{{ extension }}</span>
+                                    {% endif %}
+                                </a>
+                            </div>
+                            {% include '@Modules/pixel_product_files/views/templates/admin/files/scope.html.twig' %}
+                            <div class="product-files-fields">
+                                <div class="mt-2">
+                                    <input type="text" class="form-control" value="{{ file.file }}" readonly />
+                                </div>
+                                <div class="mt-2">
+                                    <label for="form_additional_title_{{ file.id }}">{{ 'Title'|trans({}, 'Modules.Pixelproductfiles.Admin') }}</label>
+                                    <input type="text" class="form-control" id="form_additional_title_{{ file.id }}" name="file[{{ file.id }}][title]" value="{{ file.title }}" />
+                                </div>
+                                <div class="mt-2">
+                                    <label for="form_additional_description_{{ file.id }}">{{ 'Description'|trans({}, 'Modules.Pixelproductfiles.Admin') }}</label>
+                                    <input type="text" class="form-control" id="form_additional_description_{{ file.id }}" name="file[{{ file.id }}][description]" value="{{ file.description }}" />
+                                </div>
+                                <div class="mt-2">
+                                    <label for="form_additional_position_{{ file.id }}">{{ 'Position'|trans({}, 'Modules.Pixelproductfiles.Admin') }}</label>
+                                    <input type="text" class="form-control" id="form_additional_position_{{ file.id }}" name="file[{{ file.id }}][position]" value="{{ file.position }}" />
+                                </div>
+                            </div>
+                            <div class="product-files-actions">
+                                <a href="{{ delete_url }}&id_file={{ file.id }}" onclick="return confirm('{{ 'Are you sure you want to delete this file?'|trans({}, 'Modules.Pixelproductfiles.Admin')|e }}');">{{ 'Delete'|trans({}, 'Modules.Pixelproductfiles.Admin') }}</a>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+    <div class="clearfix"></div>
+    <script>
+        $('.product_files_add_file_button').click(function (event) {
+            event.stopPropagation();
+            $('#product_files_add_file_modal_id_product').val($(this).data('product-id'));
+            $('#product_files_add_file_modal_id_shop').val($(this).data('shop-id'));
+            $('#product_files_add_file_modal_id_lang').val($(this).data('lang-id'));
+            $('#product_files_add_file_modal').modal('show');
+        });
+    </script>
+</div>

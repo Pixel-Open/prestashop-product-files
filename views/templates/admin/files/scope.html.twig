@@ -1,0 +1,30 @@
+{% if is_multi_languages or is_multi_shops %}
+    <div class="product-files-scope">
+        {% if is_multi_shops %}
+            <span class="scope-shop">
+                {% if file.idShop %}
+                    {% if shops[file.idShop] is defined %}
+                        {{ shops[file.idShop] }}
+                    {% else %}
+                       {{ 'Unknown'|trans({}, 'Modules.Pixelproductfiles.Admin') }}
+                    {% endif %}
+                {% else %}
+                    {{ 'Global'|trans({}, 'Modules.Pixelproductfiles.Admin') }}
+                {% endif %}
+            </span>
+        {% endif %}
+        {% if is_multi_languages %}
+            <span class="scope-lang">
+                {% if file.idLang %}
+                    {% if languages[file.idLang] is defined %}
+                        {{ languages[file.idLang] }}
+                    {% else %}
+                        {{ 'Unknown'|trans({}, 'Modules.Pixelproductfiles.Admin') }}
+                    {% endif %}
+                {% else %}
+                    {{ 'Global'|trans({}, 'Modules.Pixelproductfiles.Admin') }}
+                {% endif %}
+            </span>
+        {% endif %}
+    </div>
+{% endif %}

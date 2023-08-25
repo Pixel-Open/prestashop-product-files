@@ -1,0 +1,10 @@
+product_files_save_product_file:
+  path: pixel-product-files/save-file
+  methods: [POST]
+  defaults:
+    _controller: 'Pixel\Module\ProductFiles\Controller\Admin\ProductFileController::saveAction'
+product_files_delete_product_file:
+  path: pixel-product-files/delete-file
+  methods: [GET]
+  defaults:
+    _controller: 'Pixel\Module\ProductFiles\Controller\Admin\ProductFileController::deleteAction'

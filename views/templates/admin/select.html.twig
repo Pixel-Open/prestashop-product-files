@@ -1,0 +1,56 @@
+<div class="modal fade" id="product_files_add_file_modal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" action="{{ postUrl }}" enctype="multipart/form-data">
+                <div class="modal-header">
+                    <h4 class="modal-title">{{ 'Add a file'|trans({}, 'Modules.Pixelproductfiles.Admin') }}</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="id_product" id="product_files_add_file_modal_id_product" value="" />
+                    <input type="hidden" name="id_shop" id="product_files_add_file_modal_id_shop" value="" />
+                    <input type="hidden" name="id_lang" id="product_files_add_file_modal_id_lang" value="" />
+                    <div>
+                        <fieldset class="form-group">
+                            <div class="mt-2">
+                                <label for="product_files_add_file_modal_file">{{ 'File'|trans({}, 'Modules.Pixelproductfiles.Admin') }}</label>
+                                <input type="file" class="form-control" name="file" id="product_files_add_file_modal_file" value="" />
+                            </div>
+                            <div class="mt-2">
+                                <label for="product_files_add_file_modal_title">{{ 'Title'|trans({}, 'Modules.Pixelproductfiles.Admin') }}</label>
+                                <input type="text" class="form-control" name="title" id="product_files_add_file_modal_title" value="" />
+                            </div>
+                            <div class="mt-2">
+                                <label for="product_files_add_file_modal_description">{{ 'Description'|trans({}, 'Modules.Pixelproductfiles.Admin') }}</label>
+                                <input type="text" class="form-control" name="description" id="product_files_add_file_modal_description" value="" />
+                            </div>
+                            {% if is_multi_languages %}
+                                <div class="mt-4">
+                                    <input type="checkbox" name="all_languages" id="product_files_add_file_modal_all_languages" value="1" />
+                                    <label for="product_files_add_file_modal_all_languages">{{ 'Available in all languages (global)'|trans({}, 'Modules.Pixelproductfiles.Admin') }}</label>
+                                </div>
+                            {% endif %}
+                            {% if is_multi_shops %}
+                                <div class="mt-4">
+                                    <input type="checkbox" name="all_shops" id="product_files_add_file_modal_all_shops" value="1" />
+                                    <label for="product_files_add_file_modal_all_shops">{{ 'Available in all shops (global)'|trans({}, 'Modules.Pixelproductfiles.Admin') }}</label>
+                                </div>
+                            {% endif %}
+                        </fieldset>
+                    </div>
+                    <p class="mt-2">
+                        <strong>{{ 'Warning:'|trans({}, 'Modules.Pixelproductfiles.Admin') }}</strong> {{ 'all unsaved product updates will be lost'|trans({}, 'Modules.Pixelproductfiles.Admin') }}
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary btn-lg" data-dismiss="modal">
+                        {{ 'Close'|trans({}, 'Modules.Pixelproductfiles.Admin') }}
+                    </button>
+                    <button type="submit" class="btn  btn-primary">
+                        {{ 'Submit'|trans({}, 'Modules.Pixelproductfiles.Admin') }}
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
