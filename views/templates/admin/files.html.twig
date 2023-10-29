@@ -37,15 +37,15 @@
                                         </div>
                                         <div class="mt-2">
                                             <label for="form_additional_title_{{ file.id }}_{{ file.idLang }}">{{ 'Title'|trans({}, 'Modules.Pixelproductfiles.Admin') }}</label>
-                                            <input type="text" class="form-control" id="form_additional_title_{{ file.id }}_{{ file.idLang }}" name="file[{{ file.id }}][title]" value="{{ file.title }}" />
+                                            <input type="text" class="form-control" id="form_additional_title_{{ file.id }}_{{ file.idLang }}" name="file[{{ file.id }}-{{ file.idLang }}][title]" value="{{ file.title }}" />
                                         </div>
                                         <div class="mt-2">
                                             <label for="form_additional_description_{{ file.id }}_{{ file.idLang }}">{{ 'Description'|trans({}, 'Modules.Pixelproductfiles.Admin') }}</label>
-                                            <input type="text" class="form-control" id="form_additional_description_{{ file.id }}_{{ file.idLang }}" name="file[{{ file.id }}][description]" value="{{ file.description }}" />
+                                            <input type="text" class="form-control" id="form_additional_description_{{ file.id }}_{{ file.idLang }}" name="file[{{ file.id }}-{{ file.idLang }}][description]" value="{{ file.description }}" />
                                         </div>
                                         <div class="mt-2">
                                             <label for="form_additional_position_{{ file.id }}_{{ file.idLang }}">{{ 'Position'|trans({}, 'Modules.Pixelproductfiles.Admin') }}</label>
-                                            <input type="text" class="form-control" id="form_additional_position_{{ file.id }}_{{ file.idLang }}" name="file[{{ file.id }}][position]" value="{{ file.position }}" />
+                                            <input type="text" class="form-control" id="form_additional_position_{{ file.id }}_{{ file.idLang }}" name="file[{{ file.id }}-{{ file.idLang }}][position]" value="{{ file.position }}" />
                                         </div>
                                     </div>
                                     <div class="product-files-actions">
@@ -54,41 +54,6 @@
                                 </fieldset>
                             </div>
                         </div>
-                    </div>
-                </div>
-            {% else %}
-                <div class="product-files-container">
-                    <div class="product-files-content">
-                        <fieldset class="form-group">
-                            <div class="product-files-file">
-                                <a href="{{ file_base_url }}{{ file.file|url_encode }}" class="product-files-preview" {% if extension in img_ext %}style="background-image: url({{ file_base_url }}{{ file.file|url_encode }})"{% endif %} target="_blank">
-                                    {% if extension not in img_ext %}
-                                        <span>{{ extension }}</span>
-                                    {% endif %}
-                                </a>
-                            </div>
-                            {% include '@Modules/pixel_product_files/views/templates/admin/files/scope.html.twig' %}
-                            <div class="product-files-fields">
-                                <div class="mt-2">
-                                    <input type="text" class="form-control" value="{{ file.file }}" readonly />
-                                </div>
-                                <div class="mt-2">
-                                    <label for="form_additional_title_{{ file.id }}">{{ 'Title'|trans({}, 'Modules.Pixelproductfiles.Admin') }}</label>
-                                    <input type="text" class="form-control" id="form_additional_title_{{ file.id }}" name="file[{{ file.id }}][title]" value="{{ file.title }}" />
-                                </div>
-                                <div class="mt-2">
-                                    <label for="form_additional_description_{{ file.id }}">{{ 'Description'|trans({}, 'Modules.Pixelproductfiles.Admin') }}</label>
-                                    <input type="text" class="form-control" id="form_additional_description_{{ file.id }}" name="file[{{ file.id }}][description]" value="{{ file.description }}" />
-                                </div>
-                                <div class="mt-2">
-                                    <label for="form_additional_position_{{ file.id }}">{{ 'Position'|trans({}, 'Modules.Pixelproductfiles.Admin') }}</label>
-                                    <input type="text" class="form-control" id="form_additional_position_{{ file.id }}" name="file[{{ file.id }}][position]" value="{{ file.position }}" />
-                                </div>
-                            </div>
-                            <div class="product-files-actions">
-                                <a href="{{ delete_url }}&id_file={{ file.id }}" onclick="return confirm('{{ 'Are you sure you want to delete this file?'|trans({}, 'Modules.Pixelproductfiles.Admin')|e }}');">{{ 'Delete'|trans({}, 'Modules.Pixelproductfiles.Admin') }}</a>
-                            </div>
-                        </fieldset>
                     </div>
                 </div>
             {% endif %}

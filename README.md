@@ -46,6 +46,8 @@ When the shop is multi-shops or multi-languages, the file will be assigned to th
 
 ![Product files](screenshots/product-files-add.png)
 
+The title and description fields are localizable.
+
 ### Widget
 
 In the product page template, add the following Widget:

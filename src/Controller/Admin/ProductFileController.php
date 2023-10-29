@@ -4,9 +4,11 @@ namespace Pixel\Module\ProductFiles\Controller\Admin;
 
 include_once _PS_MODULE_DIR_ . 'pixel_product_files/pixel_product_files.php';
 
-use Doctrine\ORM\ORMException;
-use Pixel\Module\ProductFiles\Entity\ProductFile;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\ORMException;
+use Language;
+use Pixel\Module\ProductFiles\Entity\ProductFile;
+use Pixel\Module\ProductFiles\Entity\ProductFileLang;
 use pixel_product_files;
 use PrestaShopBundle\Controller\Admin\FrameworkBundleAdminController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -73,13 +75,25 @@ class ProductFileController extends FrameworkBundleAdminController
                 ->setFile($fileName)
                 ->setIdProduct($idProduct)
                 ->setIdLang($idLang)
-                ->setIdShop($idShop)
-                ->setTitle($request->get('title', ''))
-                ->setDescription($request->get('description', ''))
-                ->setPosition($request->get('position') ? (int)$request->get('position') : 0);
-
+                ->setIdShop($idShop);
             $entityManager->persist($productFile);
             $entityManager->flush();
+
+            $available = Language::getLanguages();
+            foreach ($available as $language) {
+                if ($productFile->getIdLang() && ($productFile->getIdLang() !== (int)$language['id_lang'])) {
+                    continue;
+                }
+                $productFileLang = new ProductFileLang();
+                $productFileLang
+                    ->setIdFile($productFile->getId())
+                    ->setIdLang((int)$language['id_lang'])
+                    ->setTitle($request->get('title', ''))
+                    ->setDescription($request->get('description', ''))
+                    ->setPosition($request->get('position') ? (int)$request->get('position') : 0);
+                $entityManager->persist($productFileLang);
+                $entityManager->flush();
+            }
 
             $this->addFlash(
                 'success',
