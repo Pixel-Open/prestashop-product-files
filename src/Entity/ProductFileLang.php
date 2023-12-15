@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
  * @ORM\Table()
  * @ORM\Entity()
  */
-class ProductFile
+class ProductFileLang
 {
     /**
      * @var int
@@ -24,16 +24,9 @@ class ProductFile
     /**
      * @var int
      *
-     * @ORM\Column(name="id_product", type="integer", nullable=false)
+     * @ORM\Column(name="id_file", type="integer")
      */
-    private $idProduct;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id_shop", type="integer", nullable=false)
-     */
-    private $idShop;
+    private $idFile;
 
     /**
      * @var int
@@ -45,81 +38,40 @@ class ProductFile
     /**
      * @var string
      *
-     * @ORM\Column(name="file", type="text", nullable=true)
-     */
-    private $file;
-
-    /**
-     * @var int
-     */
-    private $position;
-
-    /**
-     * @var string
+     * @ORM\Column(name="title", type="text", nullable=true)
      */
     private $title;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
 
     /**
-     * @return int
-     */
-    public function getId(): int
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param int|null $id
+     * @var int
      *
-     * @return ProductFile
+     * @ORM\Column(name="position", type="integer", nullable=false)
      */
-    public function setId(?int $id): ProductFile
-    {
-        $this->id = $id;
-
-        return $this;
-    }
+    private $position;
 
     /**
      * @return int
      */
-    public function getIdProduct(): int
+    public function getIdFile(): int
     {
-        return $this->idProduct;
+        return $this->idFile;
     }
 
     /**
-     * @param int $idProduct
+     * @param int|null $idFile
      *
      * @return ProductFile
      */
-    public function setIdProduct(int $idProduct): ProductFile
+    public function setIdFile(?int $idFile): ProductFileLang
     {
-        $this->idProduct = $idProduct;
-
-        return $this;
-    }
-
-    /**
-     * @return int|null
-     */
-    public function getIdShop(): ?int
-    {
-        return $this->idShop;
-    }
-
-    /**
-     * @param int|null $idShop
-     *
-     * @return ProductFile
-     */
-    public function setIdShop(?int $idShop): ProductFile
-    {
-        $this->idShop = $idShop;
+        $this->idFile = $idFile;
 
         return $this;
     }
@@ -137,7 +89,7 @@ class ProductFile
      *
      * @return ProductFile
      */
-    public function setIdLang(?int $idLang): ProductFile
+    public function setIdLang(?int $idLang): ProductFileLang
     {
         $this->idLang = $idLang;
 
@@ -157,7 +109,7 @@ class ProductFile
      *
      * @return ProductFile
      */
-    public function setTitle(?string $title): ProductFile
+    public function setTitle(?string $title): ProductFileLang
     {
         $this->title = $title;
 
@@ -177,29 +129,9 @@ class ProductFile
      *
      * @return ProductFile
      */
-    public function setDescription(?string $description): ProductFile
+    public function setDescription(?string $description): ProductFileLang
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getFile(): ?string
-    {
-        return $this->file;
-    }
-
-    /**
-     * @param string|null $file
-     *
-     * @return ProductFile
-     */
-    public function setFile(?string $file): ProductFile
-    {
-        $this->file = $file;
 
         return $this;
     }
@@ -215,9 +147,9 @@ class ProductFile
     /**
      * @param int|null $position
      *
-     * @return ProductFile
+     * @return ProductFileLang
      */
-    public function setPosition(?int $position): ProductFile
+    public function setPosition(?int $position): ProductFileLang
     {
         $this->position = $position;
 
@@ -230,11 +162,11 @@ class ProductFile
     public function toArray(): array
     {
         return [
-            'id' => $this->getId(),
-            'id_product' => $this->getIdProduct(),
-            'id_shop' => $this->getIdShop(),
+            'id_file' => $this->getIdFile(),
             'id_lang' => $this->getIdLang(),
-            'file' => $this->getFile(),
+            'title' => $this->getTitle(),
+            'description' => $this->getDescription(),
+            'position' => $this->getPosition(),
         ];
     }
 }
