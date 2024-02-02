@@ -75,7 +75,7 @@ class Pixel_product_files extends Module implements WidgetInterface
     public function __construct()
     {
         $this->name = 'pixel_product_files';
-        $this->version = '1.1.0';
+        $this->version = '1.2.0';
         $this->author = 'Pixel Open';
         $this->tab = 'content_management';
         $this->need_instance = 0;
@@ -125,26 +125,34 @@ class Pixel_product_files extends Module implements WidgetInterface
      */
     protected function createTable(): bool
     {
-        $result = (bool)Db::getInstance()->execute('
-            CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'product_file` (
-                `id` INT(10) AUTO_INCREMENT NOT NULL,
-                `id_product` INT(10) unsigned NOT NULL,
-                `id_shop` INT(10) unsigned NULL DEFAULT NULL,
-                `id_lang` INT(10) unsigned NULL DEFAULT NULL,
-                `file` VARCHAR(255) NULL DEFAULT NULL,
-                PRIMARY KEY(`id`)
-            ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=UTF8;
-            CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'product_file_lang` (
-                `id` INT(10) AUTO_INCREMENT NOT NULL,
-                `id_file` INT(10) NOT NULL,
-                `id_lang` INT(10) unsigned NOT NULL,
-                `title` VARCHAR(255) NULL DEFAULT NULL,
-                `description` TEXT NULL DEFAULT NULL,
-                `position` INT(10) NOT NULL DEFAULT 0,
-                PRIMARY KEY(`id`),
-                FOREIGN KEY (id_file) REFERENCES `' . _DB_PREFIX_ . 'product_file` (id) ON DELETE CASCADE
-            ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=UTF8;
-        ');
+        try {
+            Db::getInstance()->execute('
+                CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'product_file` (
+                    `id` INT(10) AUTO_INCREMENT NOT NULL,
+                    `id_product` INT(10) unsigned NOT NULL,
+                    `id_shop` INT(10) unsigned NULL DEFAULT NULL,
+                    `id_lang` INT(10) unsigned NULL DEFAULT NULL,
+                    `file` VARCHAR(255) NULL DEFAULT NULL,
+                    PRIMARY KEY(`id`)
+                ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=UTF8;
+            ');
+
+            Db::getInstance()->execute('
+                CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'product_file_lang` (
+                    `id` INT(10) AUTO_INCREMENT NOT NULL,
+                    `id_file` INT(10) NOT NULL,
+                    `id_lang` INT(10) unsigned NOT NULL,
+                    `title` VARCHAR(255) NULL DEFAULT NULL,
+                    `description` TEXT NULL DEFAULT NULL,
+                    `position` INT(10) NOT NULL DEFAULT 0,
+                    PRIMARY KEY(`id`),
+                    FOREIGN KEY (id_file) REFERENCES `' . _DB_PREFIX_ . 'product_file` (id) ON DELETE CASCADE
+                ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=UTF8;
+            ');
+        } catch (Exception $exception) {
+            $this->_errors[] = $exception->getMessage();
+            return false;
+        }
 
         try {
             Db::getInstance()->execute('
@@ -154,7 +162,7 @@ class Pixel_product_files extends Module implements WidgetInterface
             ');
         } catch (Exception $exception) {}
 
-        return $result;
+        return true;
     }
 
     /************/
