@@ -1,3 +1,7 @@
+## 1.2.1
+
+- New product save event
+
 ## 1.2.0
 
 - Prestashop 8.1 compatibility

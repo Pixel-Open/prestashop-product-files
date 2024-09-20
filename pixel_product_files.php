@@ -75,7 +75,7 @@ class Pixel_product_files extends Module implements WidgetInterface
     public function __construct()
     {
         $this->name = 'pixel_product_files';
-        $this->version = '1.2.0';
+        $this->version = '1.2.1';
         $this->author = 'Pixel Open';
         $this->tab = 'content_management';
         $this->need_instance = 0;
@@ -117,6 +117,7 @@ class Pixel_product_files extends Module implements WidgetInterface
             $this->registerHook('displayAdminEndContent') &&
             $this->registerHook('displayBackOfficeHeader') &&
             $this->registerHook('actionAdminProductsControllerSaveBefore') &&
+            $this->registerHook('actionBeforeUpdateProductFormHandler') &&
             $this->registerHook('actionFrontControllerSetMedia');
     }
 
@@ -376,11 +377,51 @@ class Pixel_product_files extends Module implements WidgetInterface
 
     /**
      * Save product file fields on product save
+     * Prestashop >= 8.1
      *
      * @throws OptimisticLockException
      * @throws ORMException
      */
+    public function hookActionBeforeUpdateProductFormHandler(array $params): void
+    {
+        $request = $params['request'] ?? null;
+        if ($request) {
+            $this->saveProductFileData($request->get('file') ?? []);
+        }
+    }
+
+    /**
+     * Save product file fields on product save
+     * Prestashop < 8.1
+     *
+     * @deprecated
+     * @throws OptimisticLockException
+     * @throws ORMException
+     */
     public function hookActionAdminProductsControllerSaveBefore(array $params): void
+    {
+        $this->saveProductFileData($_REQUEST['file'] ?? []);
+    }
+
+    /**
+     * Add CSS in the admin
+     *
+     * @return void
+     */
+    public function hookDisplayBackOfficeHeader(): void
+    {
+        if ($this->context->controller->controller_name === 'AdminProducts') {
+            $this->context->controller->addCSS($this->getPathUri() . 'views/css/admin/product-files.css');
+        }
+    }
+
+    /**
+     * @param $files
+     * @return void
+     * @throws OptimisticLockException
+     * @throws \Doctrine\ORM\Exception\ORMException
+     */
+    protected function saveProductFileData($files): void
     {
         /** @var EntityManager $entityManager */
         $entityManager = $this->get('doctrine.orm.entity_manager');
@@ -388,7 +429,7 @@ class Pixel_product_files extends Module implements WidgetInterface
         $productFileRepository = $entityManager->getRepository(ProductFile::class);
         $productFileLangRepository = $entityManager->getRepository(ProductFileLang::class);
 
-        foreach (($_REQUEST['file'] ?? []) as $key => $fields) {
+        foreach ($files as $key => $fields) {
             list($fileId, $lang) = explode('-', $key);
 
             /** @var ProductFile $productFile */
@@ -417,18 +458,6 @@ class Pixel_product_files extends Module implements WidgetInterface
 
             $entityManager->persist($productFileLang);
             $entityManager->flush();
-        }
-    }
-
-    /**
-     * Add CSS in the admin
-     *
-     * @return void
-     */
-    public function hookDisplayBackOfficeHeader(): void
-    {
-        if ($this->context->controller->controller_name === 'AdminProducts') {
-            $this->context->controller->addCSS($this->getPathUri() . 'views/css/admin/product-files.css');
         }
     }
 
