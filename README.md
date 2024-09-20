@@ -1,6 +1,6 @@
 # Prestashop Product Files
 
-[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.2-green)](https://php.net/)
+[![Minimum PHP Version](https://img.shields.io/badge/php-%3E%3D%207.4-green)](https://php.net/)
 [![Minimum Prestashop Version](https://img.shields.io/badge/prestashop-%3E%3D%201.7.6.0-green)](https://www.prestashop.com)
 [![GitHub release](https://img.shields.io/github/v/release/Pixel-Open/prestashop-product-files)](https://github.com/Pixel-Open/prestashop-product-files/releases)
 
