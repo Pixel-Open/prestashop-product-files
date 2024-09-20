@@ -229,6 +229,8 @@ class Pixel_product_files extends Module implements WidgetInterface
             ]
         );
 
+        $files = [];
+
         foreach ($productFiles as $productFile) {
             $productFile->setTitle(null);
             $productFile->setDescription(null);
@@ -247,10 +249,12 @@ class Pixel_product_files extends Module implements WidgetInterface
                 $productFile->setDescription($lang->getDescription());
                 $productFile->setPosition($lang->getPosition());
             }
+
+            $files[$productFile->getId()] = $productFile;
         }
 
         return [
-            'files' => $productFiles,
+            'files' => $this->sortFiles($files),
             'icons' => $this->getIcons(),
             'path' => [
                 'icons' => $configuration['icons_path'] ?? _PS_BASE_URL_SSL_ . $this->_path . 'views/icons/',
@@ -324,7 +328,7 @@ class Pixel_product_files extends Module implements WidgetInterface
                     $candidate->setDescription($lang->getDescription());
                     $candidate->setPosition($lang->getPosition());
                 }
-                $candidates[] = $candidate;
+                $candidates[$candidate->getId()] = $candidate;
             }
         }
 
@@ -342,7 +346,7 @@ class Pixel_product_files extends Module implements WidgetInterface
         $router = SymfonyContainer::getInstance()->get('router');
 
         return $this->get('twig')->render('@Modules/pixel_product_files/views/templates/admin/files.html.twig', [
-            'files'              => $candidates,
+            'files'              => $this->sortFiles($candidates),
             'file_base_url'      => self::FILE_BASE_URL,
             'languages'          => $languages,
             'shops'              => $shops,
@@ -464,6 +468,20 @@ class Pixel_product_files extends Module implements WidgetInterface
     /**************/
     /** USEFULLY **/
     /**************/
+
+    protected function sortFiles(array $files): array
+    {
+        $sorted = [];
+        foreach ($files as $file) {
+            $sorted[$file->getId()] = (int)$file->getPosition();
+        }
+        asort($sorted);
+        foreach ($sorted as $fileId => $position) {
+            $sorted[$fileId] = $files[$fileId];
+        }
+
+        return $sorted;
+    }
 
     protected function getIcons(): array
     {

@@ -1,6 +1,7 @@
 ## 1.2.1
 
 - New product save event
+- Fix files sort order on admin and frontend
 
 ## 1.2.0
 
