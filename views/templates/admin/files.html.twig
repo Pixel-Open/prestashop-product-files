@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="translations tabbable">
-                    <div class="col-md-12 mt-4 translationsFields tab-content">
+                    <div class="col-md-12 translationsFields tab-content">
                         <div data-locale="{{ lang }}" class="translationsFields-form_additional_title_add_file_{{ lang }} tab-pane translation-field show active translation-label-{{ lang }}">
                             <button type="button" class="btn btn-primary product_files_add_file_button" data-shop-id="{{ id_shop }}" data-lang-id="{{ id }}" data-product-id="{{ id_product }}">
                                 {{ 'Add a file'|trans({}, 'Modules.Pixelproductfiles.Admin') }}
@@ -37,15 +37,15 @@
                                         </div>
                                         <div class="mt-2">
                                             <label for="form_additional_title_{{ file.id }}_{{ file.idLang }}">{{ 'Title'|trans({}, 'Modules.Pixelproductfiles.Admin') }}</label>
-                                            <input type="text" class="form-control" id="form_additional_title_{{ file.id }}_{{ file.idLang }}" name="file[{{ file.id }}-{{ file.idLang }}][title]" value="{{ file.title }}" />
+                                            <input type="text" class="form-control" id="form_additional_title_{{ file.id }}_{{ file.idLang }}" name="file[{{ file.id }}][title]" value="{{ file.title }}" />
                                         </div>
                                         <div class="mt-2">
                                             <label for="form_additional_description_{{ file.id }}_{{ file.idLang }}">{{ 'Description'|trans({}, 'Modules.Pixelproductfiles.Admin') }}</label>
-                                            <input type="text" class="form-control" id="form_additional_description_{{ file.id }}_{{ file.idLang }}" name="file[{{ file.id }}-{{ file.idLang }}][description]" value="{{ file.description }}" />
+                                            <input type="text" class="form-control" id="form_additional_description_{{ file.id }}_{{ file.idLang }}" name="file[{{ file.id }}][description]" value="{{ file.description }}" />
                                         </div>
                                         <div class="mt-2">
                                             <label for="form_additional_position_{{ file.id }}_{{ file.idLang }}">{{ 'Position'|trans({}, 'Modules.Pixelproductfiles.Admin') }}</label>
-                                            <input type="text" class="form-control" id="form_additional_position_{{ file.id }}_{{ file.idLang }}" name="file[{{ file.id }}-{{ file.idLang }}][position]" value="{{ file.position }}" />
+                                            <input type="text" class="form-control" id="form_additional_position_{{ file.id }}_{{ file.idLang }}" name="file[{{ file.id }}][position]" value="{{ file.position }}" />
                                         </div>
                                     </div>
                                     <div class="product-files-actions">

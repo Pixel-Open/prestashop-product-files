@@ -45,24 +45,30 @@ class ProductFile
     /**
      * @var string
      *
+     * @ORM\Column(name="title", type="text", nullable=true)
+     */
+    private $title;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="text", nullable=true)
+     */
+    private $description;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="file", type="text", nullable=true)
      */
     private $file;
 
     /**
      * @var int
+     *
+     * @ORM\Column(name="position", type="integer", nullable=false)
      */
     private $position;
-
-    /**
-     * @var string
-     */
-    private $title;
-
-    /**
-     * @var string
-     */
-    private $description;
 
     /**
      * @return int
@@ -234,7 +240,10 @@ class ProductFile
             'id_product' => $this->getIdProduct(),
             'id_shop' => $this->getIdShop(),
             'id_lang' => $this->getIdLang(),
+            'title' => $this->getTitle(),
+            'description' => $this->getDescription(),
             'file' => $this->getFile(),
+            'position' => $this->getPosition(),
         ];
     }
 }

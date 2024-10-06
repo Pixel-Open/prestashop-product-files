@@ -1,3 +1,7 @@
+## 1.3.0
+
+- Multi languages refactoring
+
 ## 1.2.1
 
 - New product save event

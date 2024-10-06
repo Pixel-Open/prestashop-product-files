@@ -12,7 +12,6 @@ if (!defined('_PS_VERSION_')) {
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Pixel\Module\ProductFiles\Entity\ProductFile;
-use Pixel\Module\ProductFiles\Entity\ProductFileLang;
 use Doctrine\ORM\EntityManager;
 use PrestaShop\PrestaShop\Adapter\SymfonyContainer;
 use PrestaShop\PrestaShop\Core\Exception\ContainerNotFoundException;
@@ -75,7 +74,7 @@ class Pixel_product_files extends Module implements WidgetInterface
     public function __construct()
     {
         $this->name = 'pixel_product_files';
-        $this->version = '1.2.1';
+        $this->version = '1.3.0';
         $this->author = 'Pixel Open';
         $this->tab = 'content_management';
         $this->need_instance = 0;
@@ -134,34 +133,16 @@ class Pixel_product_files extends Module implements WidgetInterface
                     `id_shop` INT(10) unsigned NULL DEFAULT NULL,
                     `id_lang` INT(10) unsigned NULL DEFAULT NULL,
                     `file` VARCHAR(255) NULL DEFAULT NULL,
-                    PRIMARY KEY(`id`)
-                ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=UTF8;
-            ');
-
-            Db::getInstance()->execute('
-                CREATE TABLE IF NOT EXISTS `' . _DB_PREFIX_ . 'product_file_lang` (
-                    `id` INT(10) AUTO_INCREMENT NOT NULL,
-                    `id_file` INT(10) NOT NULL,
-                    `id_lang` INT(10) unsigned NOT NULL,
                     `title` VARCHAR(255) NULL DEFAULT NULL,
                     `description` TEXT NULL DEFAULT NULL,
                     `position` INT(10) NOT NULL DEFAULT 0,
-                    PRIMARY KEY(`id`),
-                    FOREIGN KEY (id_file) REFERENCES `' . _DB_PREFIX_ . 'product_file` (id) ON DELETE CASCADE
+                    PRIMARY KEY(`id`)
                 ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=UTF8;
             ');
         } catch (Exception $exception) {
             $this->_errors[] = $exception->getMessage();
             return false;
         }
-
-        try {
-            Db::getInstance()->execute('
-                ALTER TABLE `' . _DB_PREFIX_ . 'product_file` DROP COLUMN `title`;
-                ALTER TABLE `' . _DB_PREFIX_ . 'product_file` DROP COLUMN `description`;
-                ALTER TABLE `' . _DB_PREFIX_ . 'product_file` DROP COLUMN `position`;
-            ');
-        } catch (Exception $exception) {}
 
         return true;
     }
@@ -218,43 +199,18 @@ class Pixel_product_files extends Module implements WidgetInterface
         /** @var EntityManager $entityManager */
         $entityManager = $this->getContainer()->get('doctrine.orm.entity_manager');
 
-        $productFileRepository = $entityManager->getRepository(ProductFile::class);
-
-        /** @var ProductFile[] $productFiles */
-        $productFiles = $productFileRepository->findBy(
+        $repository = $entityManager->getRepository(ProductFile::class);
+        $files = $repository->findBy(
             [
                 'idProduct' => (int)$idProduct,
                 'idLang'    => [(int)$idLang, null, 0],
                 'idShop'    => [(int)$idShop, null, 0],
-            ]
+            ],
+            ['position' => 'asc']
         );
 
-        $files = [];
-
-        foreach ($productFiles as $productFile) {
-            $productFile->setTitle(null);
-            $productFile->setDescription(null);
-            $productFile->setPosition(0);
-
-            $productFileLangRepository = $entityManager->getRepository(ProductFileLang::class);
-            $lang = $productFileLangRepository->findOneBy(
-                [
-                    'idFile' => $productFile->getId(),
-                    'idLang' => (int)$idLang,
-                ]
-            );
-
-            if ($lang) {
-                $productFile->setTitle($lang->getTitle());
-                $productFile->setDescription($lang->getDescription());
-                $productFile->setPosition($lang->getPosition());
-            }
-
-            $files[$productFile->getId()] = $productFile;
-        }
-
         return [
-            'files' => $this->sortFiles($files),
+            'files' => $files,
             'icons' => $this->getIcons(),
             'path' => [
                 'icons' => $configuration['icons_path'] ?? _PS_BASE_URL_SSL_ . $this->_path . 'views/icons/',
@@ -291,47 +247,16 @@ class Pixel_product_files extends Module implements WidgetInterface
         /** @var EntityManager $entityManager */
         $entityManager = $this->getContainer()->get('doctrine.orm.entity_manager');
 
-        $productFileRepository = $entityManager->getRepository(ProductFile::class);
-        /** @var ProductFile[] $productFiles */
-        $productFiles = $productFileRepository->findBy(
+        $repository = $entityManager->getRepository(ProductFile::class);
+        $files = $repository->findBy(
             [
                 'idProduct' => $productId,
                 'idShop'    => [(int)Context::getContext()->shop->id, null],
-            ]
+            ],
+            ['position' => 'asc']
         );
 
         $available = Language::getLanguages();
-
-        $candidates = [];
-        foreach ($productFiles as $productFile) {
-            $productFileLangRepository = $entityManager->getRepository(ProductFileLang::class);
-
-            foreach ($available as $language) {
-                if ($productFile->getIdLang() && ($productFile->getIdLang() !== (int)$language['id_lang'])) {
-                    continue;
-                }
-                $candidate = clone($productFile);
-                $candidate
-                    ->setIdLang((int)$language['id_lang'])
-                    ->setTitle(null)
-                    ->setDescription(null)
-                    ->setPosition(0);
-                /** @var ProductFileLang $lang */
-                $lang = $productFileLangRepository->findOneBy(
-                    [
-                        'idFile' => $productFile->getId(),
-                        'idLang' => $language['id_lang'],
-                    ]
-                );
-                if ($lang) {
-                    $candidate->setTitle($lang->getTitle());
-                    $candidate->setDescription($lang->getDescription());
-                    $candidate->setPosition($lang->getPosition());
-                }
-                $candidates[$candidate->getId()] = $candidate;
-            }
-        }
-
         $languages = [];
         foreach ($available as $language) {
             $languages[$language['id_lang']] = $language['iso_code'];
@@ -346,7 +271,7 @@ class Pixel_product_files extends Module implements WidgetInterface
         $router = SymfonyContainer::getInstance()->get('router');
 
         return $this->get('twig')->render('@Modules/pixel_product_files/views/templates/admin/files.html.twig', [
-            'files'              => $this->sortFiles($candidates),
+            'files'              => $files,
             'file_base_url'      => self::FILE_BASE_URL,
             'languages'          => $languages,
             'shops'              => $shops,
@@ -429,38 +354,28 @@ class Pixel_product_files extends Module implements WidgetInterface
     {
         /** @var EntityManager $entityManager */
         $entityManager = $this->get('doctrine.orm.entity_manager');
+        $repository = $entityManager->getRepository(ProductFile::class);
 
-        $productFileRepository = $entityManager->getRepository(ProductFile::class);
-        $productFileLangRepository = $entityManager->getRepository(ProductFileLang::class);
-
-        foreach ($files as $key => $fields) {
-            list($fileId, $lang) = explode('-', $key);
-
+        foreach ($files as $id => $fields) {
             /** @var ProductFile $productFile */
-            $productFile = $productFileRepository->findOneBy(['id' => $fileId]);
+            $productFile = $repository->findOneBy(['id' => $id]);
             if (!$productFile) {
                 continue;
             }
-
-            $productFileLang = $productFileLangRepository->findOneBy(
-                [
-                    'idFile' => $productFile->getId(),
-                    'idLang' => $lang
-                ]
-            );
-            if (!$productFileLang) {
-                $productFileLang = new ProductFileLang();
-                $productFileLang
-                    ->setIdFile($productFile->getId())
-                    ->setIdLang((int)$lang);
+            foreach ($fields as $field => $value) {
+                switch ($field) {
+                    case 'title':
+                        $productFile->setTitle((string)$value);
+                        break;
+                    case 'description':
+                        $productFile->setDescription((string)$value);
+                        break;
+                    case 'position':
+                        $productFile->setPosition((int)$value);
+                        break;
+                }
             }
-
-            $productFileLang
-                ->setTitle($fields['title'])
-                ->setDescription($fields['description'])
-                ->setPosition((int)$fields['position']);
-
-            $entityManager->persist($productFileLang);
+            $entityManager->persist($productFile);
             $entityManager->flush();
         }
     }
@@ -468,20 +383,6 @@ class Pixel_product_files extends Module implements WidgetInterface
     /**************/
     /** USEFULLY **/
     /**************/
-
-    protected function sortFiles(array $files): array
-    {
-        $sorted = [];
-        foreach ($files as $file) {
-            $sorted[$file->getId()] = (int)$file->getPosition();
-        }
-        asort($sorted);
-        foreach ($sorted as $fileId => $position) {
-            $sorted[$fileId] = $files[$fileId];
-        }
-
-        return $sorted;
-    }
 
     protected function getIcons(): array
     {

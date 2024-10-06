@@ -8,9 +8,9 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\ORMException;
 use Language;
 use Pixel\Module\ProductFiles\Entity\ProductFile;
-use Pixel\Module\ProductFiles\Entity\ProductFileLang;
 use pixel_product_files;
 use PrestaShopBundle\Controller\Admin\FrameworkBundleAdminController;
+use Shop;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -60,39 +60,41 @@ class ProductFileController extends FrameworkBundleAdminController
             /** @var EntityManager $entityManager */
             $entityManager = $this->get('doctrine.orm.entity_manager');
 
-            $idLang = $request->get('id_lang') ? (int)$request->get('id_lang') : null;
-            if ($request->get('all_languages')) {
-                $idLang = null;
-            }
+            $shopIds = [(int)$request->get('id_shop')];
+            $langIds = [(int)$request->get('id_lang')];
 
-            $idShop = $request->get('id_shop') ? (int)$request->get('id_shop') : null;
             if ($request->get('all_shops')) {
-                $idShop = null;
+                $shops = Shop::getShops();
+                foreach ($shops as $shop) {
+                    $shopIds[] = (int)$shop['id_shop'];
+                }
             }
 
-            $productFile = new ProductFile();
-            $productFile
-                ->setFile($fileName)
-                ->setIdProduct($idProduct)
-                ->setIdLang($idLang)
-                ->setIdShop($idShop);
-            $entityManager->persist($productFile);
-            $entityManager->flush();
-
-            $available = Language::getLanguages();
-            foreach ($available as $language) {
-                if ($productFile->getIdLang() && ($productFile->getIdLang() !== (int)$language['id_lang'])) {
-                    continue;
+            if ($request->get('all_languages')) {
+                $languages = Language::getLanguages();
+                foreach ($languages as $language) {
+                    $langIds[] = (int)$language['id_lang'];
                 }
-                $productFileLang = new ProductFileLang();
-                $productFileLang
-                    ->setIdFile($productFile->getId())
-                    ->setIdLang((int)$language['id_lang'])
-                    ->setTitle($request->get('title', ''))
-                    ->setDescription($request->get('description', ''))
-                    ->setPosition($request->get('position') ? (int)$request->get('position') : 0);
-                $entityManager->persist($productFileLang);
-                $entityManager->flush();
+            }
+
+            $shopIds = array_filter(array_unique($shopIds));
+            $langIds = array_filter(array_unique($langIds));
+
+            foreach ($shopIds as $shopId) {
+                foreach ($langIds as $langId) {
+                    $productFile = new ProductFile();
+                    $productFile
+                        ->setFile($fileName)
+                        ->setIdProduct($idProduct)
+                        ->setIdLang($langId)
+                        ->setIdShop($shopId)
+                        ->setTitle($request->get('title', ''))
+                        ->setDescription($request->get('description', ''))
+                        ->setPosition($request->get('position') ? (int)$request->get('position') : 0);
+
+                    $entityManager->persist($productFile);
+                    $entityManager->flush();
+                }
             }
 
             $this->addFlash(
@@ -137,10 +139,14 @@ class ProductFileController extends FrameworkBundleAdminController
             return $this->redirect($referer);
         }
 
-        $filepath = pixel_product_files::FILE_BASE_DIR . $productFile->getFile();
-        if (is_file($filepath)) {
-            @unlink($filepath);
+        $sharedFile = $repository->findBy(['file' => $productFile->getFile()]);
+        if (count($sharedFile) === 1) {
+            $filepath = pixel_product_files::FILE_BASE_DIR . $productFile->getFile();
+            if (is_file($filepath)) {
+                @unlink($filepath);
+            }
         }
+
         $entityManager->remove($productFile);
         $entityManager->flush();
 
