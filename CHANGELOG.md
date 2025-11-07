@@ -1,3 +1,7 @@
+## 1.3.1
+
+- Compatibility with Prestashop 8 & 9
+
 ## 1.3.0
 
 - Multi languages refactoring
