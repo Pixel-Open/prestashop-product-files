@@ -74,7 +74,7 @@ class Pixel_product_files extends Module implements WidgetInterface
     public function __construct()
     {
         $this->name = 'pixel_product_files';
-        $this->version = '1.3.0';
+        $this->version = '1.3.1';
         $this->author = 'Pixel Open';
         $this->tab = 'content_management';
         $this->need_instance = 0;

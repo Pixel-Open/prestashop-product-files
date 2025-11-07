@@ -1,3 +1,8 @@
+.row.file-button {
+    display: inline-block;
+    margin-right: 2px;
+}
+
 .product-files-list {
     margin: 20px -10px 0 -10px;
 }

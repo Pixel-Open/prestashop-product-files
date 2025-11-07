@@ -17,7 +17,7 @@ An easy way to attach files and documents to the product (multi-languages, multi
 
 ## Requirements
 
-- Prestashop >= 1.7.6.0
+- Prestashop >= 1.7.6.0 / Prestashop >= 8.0 / Prestashop >= 9.0
 - PHP >= 7.4.0
 
 ## Installation

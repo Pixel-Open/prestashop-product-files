@@ -1,12 +1,12 @@
 <div class="form-group">
     {% for id, lang in languages %}
-        <div class="row">
+        <div class="row file-button">
             <div class="col-md-12">
                 <div class="translations tabbable">
                     <div class="col-md-12 translationsFields tab-content">
                         <div data-locale="{{ lang }}" class="translationsFields-form_additional_title_add_file_{{ lang }} tab-pane translation-field show active translation-label-{{ lang }}">
                             <button type="button" class="btn btn-primary product_files_add_file_button" data-shop-id="{{ id_shop }}" data-lang-id="{{ id }}" data-product-id="{{ id_product }}">
-                                {{ 'Add a file'|trans({}, 'Modules.Pixelproductfiles.Admin') }}
+                                {{ 'Add a file'|trans({}, 'Modules.Pixelproductfiles.Admin') }} {{ lang|upper }}
                             </button>
                         </div>
                     </div>
