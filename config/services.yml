@@ -1,0 +1,5 @@
+services:
+  pixel.product_files.remove_unassociated_files:
+    class: Pixel\Module\ProductFiles\Command\RemoveUnassociatedFilesCommand
+    tags:
+      - { name: 'console.command' }
