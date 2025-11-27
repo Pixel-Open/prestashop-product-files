@@ -137,7 +137,6 @@ class Pixel_product_files extends Module implements WidgetInterface
                     `title` VARCHAR(255) NULL DEFAULT NULL,
                     `description` TEXT NULL DEFAULT NULL,
                     `position` INT(10) NOT NULL DEFAULT 0,
-                    `nb_download` INT(10) NULL DEFAULT 0,
                     PRIMARY KEY(`id`)
                 ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=UTF8;
             ');
