@@ -74,7 +74,7 @@ class Pixel_product_files extends Module implements WidgetInterface
     public function __construct()
     {
         $this->name = 'pixel_product_files';
-        $this->version = '1.3.1';
+        $this->version = '1.4.0';
         $this->author = 'Pixel Open';
         $this->tab = 'content_management';
         $this->need_instance = 0;
@@ -117,7 +117,8 @@ class Pixel_product_files extends Module implements WidgetInterface
             $this->registerHook('displayBackOfficeHeader') &&
             $this->registerHook('actionAdminProductsControllerSaveBefore') &&
             $this->registerHook('actionBeforeUpdateProductFormHandler') &&
-            $this->registerHook('actionFrontControllerSetMedia');
+            $this->registerHook('actionFrontControllerSetMedia') &&
+            $this->registerHook("displayAdminStatsModules");
     }
 
     /**
@@ -136,6 +137,7 @@ class Pixel_product_files extends Module implements WidgetInterface
                     `title` VARCHAR(255) NULL DEFAULT NULL,
                     `description` TEXT NULL DEFAULT NULL,
                     `position` INT(10) NOT NULL DEFAULT 0,
+                    `nb_download` INT(10) NULL DEFAULT 0,
                     PRIMARY KEY(`id`)
                 ) ENGINE=' . _MYSQL_ENGINE_ . ' DEFAULT CHARSET=UTF8;
             ');
@@ -378,6 +380,51 @@ class Pixel_product_files extends Module implements WidgetInterface
             $entityManager->persist($productFile);
             $entityManager->flush();
         }
+    }
+
+    public function hookDisplayAdminStatsModules()
+    {
+        $html = "";
+
+        $productFiles = Db::getInstance()->executeS("
+            SELECT pf.id, pf.title, pl.name, pf.nb_download
+            FROM " . _DB_PREFIX_ . "product_file AS pf
+            INNER JOIN " . _DB_PREFIX_ . "product_lang AS pl ON (pf.id_product = pl.id_product AND pl.id_lang = pf.id_lang)
+        ");
+
+        if (count($productFiles) > 0) {
+            $html = '
+            <script type="text/javascript">$(\'#calendar\').slideToggle();</script>
+            <div class="panel-heading">' . $this->trans("Product file download", [], "Modules.PixelproductFiles.Admin") . '</div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th><span class="title_box_active">' . $this->trans("Id", [], "Modules.PixelproductFiles.Admin") . '</span></th>
+                        <th><span class="title_box_active">' . $this->trans("File name", [], "Modules.PixelproductFiles.Admin") . '</span></th>
+                        <th><span class="title_box_active">' . $this->trans("Product", [], "Modules.PixelproductFiles.Admin") . '</span></th>
+                        <th><span class="title_box_active">' . $this->trans("Number of downloads", [], "Modules.PixelproductFiles.Admin") . '</span></th>
+                    </tr>
+                </thead>
+                <tbody>';
+
+            foreach ($productFiles as $productFile) {
+                $html .= '<tr>
+                    <td>' . $productFile['id'] . '</td>
+                    <td>' . $productFile['title'] . '</td>
+                    <td>' . $productFile['name'] . '</td>
+                    <td>' . $productFile['nb_download'] . '</td>
+                </tr>';
+            }
+
+            $html .= '
+                </tbody>
+            </table>
+            ';
+        } else {
+            $html .= "<p>" . $this->trans("There are no files associated with product", [], "Modules.Pixelproductfiles.Admin") . "</p>";
+        }
+
+        return $html;
     }
 
     /**************/

@@ -71,6 +71,13 @@ class ProductFile
     private $position;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="nb_download", type="integer", nullable=false)
+     */
+    private $nbDownload;
+
+    /**
      * @return int
      */
     public function getId(): int
@@ -228,6 +235,16 @@ class ProductFile
         $this->position = $position;
 
         return $this;
+    }
+
+    public function getNbDownload(): int
+    {
+        return $this->nbDownload;
+    }
+
+    public function setNbDownload(int $nbDownload): void
+    {
+        $this->nbDownload = $nbDownload;
     }
 
     /**
