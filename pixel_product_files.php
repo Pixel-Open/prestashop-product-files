@@ -389,6 +389,7 @@ class Pixel_product_files extends Module implements WidgetInterface
             SELECT pf.id, pf.title, pl.name, pf.nb_download
             FROM " . _DB_PREFIX_ . "product_file AS pf
             INNER JOIN " . _DB_PREFIX_ . "product_lang AS pl ON (pf.id_product = pl.id_product AND pl.id_lang = pf.id_lang)
+            ORDER BY pf.nb_download DESC
         ");
 
         if (count($productFiles) > 0) {
