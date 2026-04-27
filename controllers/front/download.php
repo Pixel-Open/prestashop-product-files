@@ -81,7 +81,7 @@ class Pixel_Product_FilesDownloadModuleFrontController extends ModuleFrontContro
         }
 
         $fileName = $parts
-            ? implode(' - ', $parts)
+            ? implode('-', $parts)
             : basename($productFile['file']);
 
         // Ajouter l'extension si nécessaire
