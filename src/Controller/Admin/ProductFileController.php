@@ -90,7 +90,8 @@ class ProductFileController extends FrameworkBundleAdminController
                         ->setIdShop($shopId)
                         ->setTitle($request->get('title', ''))
                         ->setDescription($request->get('description', ''))
-                        ->setPosition($request->get('position') ? (int)$request->get('position') : 0);
+                        ->setPosition($request->get('position') ? (int)$request->get('position') : 0)
+                        ->setNbDownload(0);
 
                     $entityManager->persist($productFile);
                     $entityManager->flush();
