@@ -47,6 +47,10 @@
                                             <label for="form_additional_position_{{ file.id }}_{{ file.idLang }}">{{ 'Position'|trans({}, 'Modules.Pixelproductfiles.Admin') }}</label>
                                             <input type="text" class="form-control" id="form_additional_position_{{ file.id }}_{{ file.idLang }}" name="file[{{ file.id }}][position]" value="{{ file.position }}" />
                                         </div>
+                                        <div class="mt-2">
+                                            <label for="form_additional_nb_download_{{ file.id }}_{{ file.idLang }}">{{ "Number of downloads"|trans({}, "Modules.Pixelproductfiles.Admin") }}</label>
+                                            <input type="text" class="form-control" id="form_additional_nb_download_{{ file.id }}_{{ file.idLang }}" value="{{ file.nbDownload }}" readonly />
+                                        </div>
                                     </div>
                                     <div class="product-files-actions">
                                         <a href="{{ delete_url }}&id_file={{ file.id }}" onclick="return confirm('{{ 'Are you sure you want to delete this file?'|trans({}, 'Modules.Pixelproductfiles.Admin')|e }}');">{{ 'Delete'|trans({}, 'Modules.Pixelproductfiles.Admin') }}</a>
